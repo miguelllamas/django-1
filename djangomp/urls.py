@@ -15,11 +15,15 @@ Including another URLconf
 """
 from django.contrib import admin
 
-from django.urls import path
-from django.urls import include
+from django.conf.urls import url
+from django.conf.urls import include
+# from django.urls import path
+# from django.urls import include
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-	# path('blog/', include('blog.urls')),
-	path('', include('blog.urls')) # page redirect determined by urls.py in blog folder
+	url(r'^admin/', admin.site.urls),
+	url(r'', include('blog.urls')), # where page redirects is determined by urls.py in blog folder
+
+    # path('admin/', admin.site.urls)
+	# path('', include('blog.urls'))
 ]
