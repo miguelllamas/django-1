@@ -3,7 +3,7 @@ from django.shortcuts import render
 from .models import Post
 from django.utils import timezone
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login
 
 from django import forms
@@ -46,3 +46,7 @@ def post_list(request):
 	
 def home(request):
 	return render(request, 'blog/home.html')
+	
+def post_detail(request, pk):
+	post = get_object_or_404(Post, pk=pk)
+	return render(request, 'blog/post_detail.html', {'post': post})
