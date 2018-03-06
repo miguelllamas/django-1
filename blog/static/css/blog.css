@@ -1,5 +1,6 @@
 body {
 	background-color: #FAF5F6;
+	/* background-image: url("https://mdn.mozillademos.org/files/6457/mdn_logo_only_color.png"); */
 }
 
 .page-header {
@@ -44,6 +45,7 @@ body {
 
 .post {
     padding: 20px 20px 20px 40px;
+	max-width: 80%;
 	margin-bottom: 20;
     background-color: #FFFFFF;
 }

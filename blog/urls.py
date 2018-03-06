@@ -25,7 +25,7 @@ urlpatterns = [
 	url(r'^$', views.post_list, name='post_list'),  # see views.py in blog folder
 	url(r'^home/$', views.post_list, name='post_list'),
 	url(r'^login/$', auth_views.login, name='login'),
-	url(r'^logout/$', auth_views.logout, name='logout'),
+	url(r'^logout/$', auth_views.logout, {'next_page': '/home/'}, name='logout'),
 	url(r'^signup/$', views.signup, name='signup'),
 	url(r'^post/(?P<pk>\d+)/$', views.post_detail, name='post_detail'), # '\d+' = only digits -> value saved to pk
 	url(r'^post/new/$', views.post_new, name='post_new'),

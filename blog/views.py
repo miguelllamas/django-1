@@ -35,7 +35,7 @@ def signup(request):
 			raw_password = form.cleaned_data.get('password1')
 			user = authenticate(username=username, password=raw_password) #authenticate by checking for matching users
 			login(request, user) #login
-			return redirect('index')
+			return redirect('post_list')
 	else:
 		# form = UserCreationForm()
 		form = SignUpForm()
