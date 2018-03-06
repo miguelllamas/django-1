@@ -122,4 +122,4 @@ STATIC_URL = '/static/'
 
 
 # Project-specific settings
-LOGIN_REDIRECT_URL = 'index' # default: /accounts/profile/
+LOGIN_REDIRECT_URL = '/home/' # default: /accounts/profile/

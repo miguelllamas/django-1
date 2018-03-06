@@ -11,6 +11,16 @@
 	
 	<body>
 		<div class="page-header">
+			{% if user.is_authenticated %}
+				<div class="log_status">Hello, {{user.get_username}}!</div>
+				<div class="log_status"><a href="{% url 'logout' %}">Log out</a></div>
+			{% endif %}
+			{% if not user.is_authenticated %}
+				<div class="log_status"><a href="{% url 'login' %}">Log in</a> <div class="new_account"><a href="{% url 'signup' %}">Sign up</a></div></div>
+			{% endif %}
+			{% if user.is_superuser %}
+				<a href="{% url 'post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
+			{% endif %}
 			<h1><a href="/">TubeAnalytics</a></h1>
 			<h4>A YouTube analysis hub</h4>
 		</div>
