@@ -15,7 +15,9 @@ class Post(models.Model):
 	published_date = models.DateTimeField(
 		blank=True, null=True)
 		
-	description = models.CharField(max_length=75)
+	description = models.CharField(max_length=100)
+	
+	type = models.PositiveSmallIntegerField(default=0)
 
 	def publish(self):
 		self.published_date = timezone.now()

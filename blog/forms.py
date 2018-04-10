@@ -28,3 +28,6 @@ class PostForm(forms.ModelForm):
 	class Meta:
 		model = Post
 		fields = ('title', 'content',)
+		
+class KeywordForm(forms.Form):
+    keyword = forms.CharField(label='Enter a tag to see its graphed popularity over time', max_length=100)
