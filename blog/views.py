@@ -13,10 +13,10 @@ from django.contrib.auth.forms import UserCreationForm
 from .forms import PostForm
 from .forms import KeywordForm
 
-import numpy as np # library for linear algebra
-import pandas as pd # library for data processing, CSV file I/O
-import matplotlib.pyplot as plt # library for data visualization
-# import seaborn as sns # library for data visualization
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+# import seaborn as sns
 import mpld3
 
 from django.http import HttpResponse
@@ -28,7 +28,9 @@ from pandas import DataFrame
 
 import io
 
-# Create your views here.
+import os
+from django.conf import settings
+
 def index(request):
 	if request.method == 'POST':
 		username = request.POST['username']
@@ -127,7 +129,8 @@ def graphEnthusiasm():
 	fig = Figure()
 	ax = fig.add_subplot(111)
 	
-	USVids = pd.read_csv("/Users/Miggy Llamas/Documents/django_env/djangomp/blog/USvideos.csv", error_bad_lines=False)
+	filename = os.path.join(settings.BASE_DIR, 'blog\\USvideos.csv')
+	USVids = pd.read_csv(filename, error_bad_lines=False)
 	
 	USVids = USVids.drop_duplicates(subset='video_id', keep="last")
 	USVids['enthusiasm'] = USVids['likes'] / (USVids['likes'] + USVids['dislikes'])
@@ -135,7 +138,7 @@ def graphEnthusiasm():
 	x = USVids['enthusiasm']
 	y = USVids['views']
 	
-	ax.set_title('Views and Enthusiasm Ratings for Individual Videos')
+	ax.set_title('Views and Enthusiasm Ratings for Individual Videos in Trending Videos Section')
 	ax.set_xlabel('Enthusiasm rating')
 	ax.set_ylabel('Views')
 
@@ -150,7 +153,8 @@ def graphEnthusiasmOverTime():
 	fig = Figure()
 	ax = fig.add_subplot(111)
 	
-	USVids = pd.read_csv("/Users/Miggy Llamas/Documents/django_env/djangomp/blog/USvideos.csv", error_bad_lines=False)
+	filename = os.path.join(settings.BASE_DIR, 'blog\\USvideos.csv')
+	USVids = pd.read_csv(filename, error_bad_lines=False)
 	
 	USVids['enthusiasm'] = USVids['likes'] / (USVids['likes'] + USVids['dislikes'])
 	USVids['y'], USVids['d'], USVids['m'] = zip(*USVids['trending_date'].map(lambda x: x.split('.')))
@@ -193,7 +197,8 @@ def graphKeywordFindings():
 	fig = Figure()
 	ax = fig.add_subplot(111)
 	
-	USVids = pd.read_csv("/Users/Miggy Llamas/Documents/django_env/djangomp/blog/USvideos.csv", error_bad_lines=False)
+	filename = os.path.join(settings.BASE_DIR, 'blog\\USvideos.csv')
+	USVids = pd.read_csv(filename, error_bad_lines=False)
 	
 	SplitTitle = USVids.title.str.split('\s+',expand=True).stack()
 	USVidsSplitTitle = USVids.join(pd.Series(index=SplitTitle.index.droplevel(1), data=SplitTitle.values, name='SplitTitle'))
@@ -211,7 +216,7 @@ def graphKeywordFindings():
 	x = WordsByInstanceCount['days_trended']
 	y = WordsByInstanceCount['views_over_frequency']
 	
-	ax.set_title('Statistics for Individual Keywords Used in Trending Videos')
+	ax.set_title('Statistics for Individual Keywords Used in Titles of Trending Videos')
 	ax.set_xlabel('Total days in trending section')
 	ax.set_ylabel('Total views ÷ total instances of use')
 
@@ -228,14 +233,14 @@ def graphTopicSearch(keyword):
 	fig = Figure()
 	ax = fig.add_subplot(111)
 	
-	USVids = pd.read_csv("/Users/Miggy Llamas/Documents/django_env/djangomp/blog/USvideos.csv", error_bad_lines=False)
+	filename = os.path.join(settings.BASE_DIR, 'blog\\USvideos.csv')
+	USVids = pd.read_csv(filename, error_bad_lines=False)
 	
 	SplitTags = USVids.tags.str.split('|',expand=True).stack()
 	USVidsSplitTags = USVids.join(pd.Series(index=SplitTags.index.droplevel(1), data=SplitTags.values, name='SplitTags'))
 	USVidsSplitTags = USVidsSplitTags[USVidsSplitTags['SplitTags'] != '']
 	USVidsSplitTags['SplitTags'] = USVidsSplitTags['SplitTags'].replace('"','',regex=True)
 	USVidsSplitTags['SplitTags'] = USVidsSplitTags['SplitTags'].str.lower()
-	#USVidsSplitTags['trending_date'] = USVidsSplitTags['trending_date'].replace('\W','',regex=True)
 
 	USVidsSplitTags = USVidsSplitTags[USVidsSplitTags['SplitTags'] == keyword]
 	
@@ -245,7 +250,6 @@ def graphTopicSearch(keyword):
 	USVidsSplitTags = USVidsSplitTags.join(USVidsSplitTags2, on=['trending_date'], how='inner')
 	USVidsSplitTags = USVidsSplitTags.filter(items=['trending_date', 'total_views'])
 	USVidsSplitTags = USVidsSplitTags.drop_duplicates(subset='trending_date')
-	#USVidsSplitTags['trending_date'] = USVidsSplitTags['trending_date'].astype(int)
 	
 	USVidsSplitTags['y'], USVidsSplitTags['d'], USVidsSplitTags['m'] = zip(*USVidsSplitTags['trending_date'].map(lambda x: x.split('.')))
 	USVidsSplitTags['ymd'] = USVidsSplitTags['y'] + USVidsSplitTags['m'] + USVidsSplitTags['d']
@@ -265,8 +269,8 @@ def graphTopicSearch(keyword):
 	x = USVidsSplitTags['ymd']
 	y = USVidsSplitTags['total_views']
 
-	ax.set_title('Daily Views for Videos Featuring Keyword Over Specified Time Period')
-	ax.set_xlabel('Day')
+	ax.set_title('Total Daily Views for Videos Featuring Keyword Over Specified Time Period')
+	ax.set_xlabel('Day (i.e. 1 = Day 1)')
 	ax.set_ylabel('Views')
 
 	ax.plot(x, y, marker='h', linestyle='solid')
@@ -282,14 +286,14 @@ def graphTopicSearch2(keyword):
 	fig = Figure()
 	ax = fig.add_subplot(111)
 	
-	USVids = pd.read_csv("/Users/Miggy Llamas/Documents/django_env/djangomp/blog/USvideos.csv", error_bad_lines=False)
+	filename = os.path.join(settings.BASE_DIR, 'blog\\USvideos.csv')
+	USVids = pd.read_csv(filename, error_bad_lines=False)
 	
 	SplitTags = USVids.tags.str.split('|',expand=True).stack()
 	USVidsSplitTags = USVids.join(pd.Series(index=SplitTags.index.droplevel(1), data=SplitTags.values, name='SplitTags'))
 	USVidsSplitTags = USVidsSplitTags[USVidsSplitTags['SplitTags'] != '']
 	USVidsSplitTags['SplitTags'] = USVidsSplitTags['SplitTags'].replace('"','',regex=True)
 	USVidsSplitTags['SplitTags'] = USVidsSplitTags['SplitTags'].str.lower()
-	# USVidsSplitTags['trending_date'] = USVidsSplitTags['trending_date'].replace('\W','',regex=True)
 		
 	USVidsSplitTags['y'], USVidsSplitTags['d'], USVidsSplitTags['m'] = zip(*USVidsSplitTags['trending_date'].map(lambda x: x.split('.')))
 	USVidsSplitTags['ymd'] = USVidsSplitTags['y'] + USVidsSplitTags['m'] + USVidsSplitTags['d']
@@ -310,7 +314,7 @@ def graphTopicSearch2(keyword):
 	
 	USVidsSplitTags = USVidsSplitTags.groupby(['ymd'])['views'].sum()
 
-	ax.set_title('Daily Views for Videos Featuring Keyword Over Specified Time Period')
+	ax.set_title('Total Daily Views for Videos Featuring Keyword Over Specified Time Period')
 	ax.set_ylabel('Views')
 	
 	USVidsSplitTags.plot(ax=ax, kind='bar')
@@ -318,46 +322,11 @@ def graphTopicSearch2(keyword):
 	canvas = FigureCanvas(fig)	
 	g = mpld3.fig_to_html(fig)
 	
-	return g	
-'''
-def graphTopic(keyword):
-	keyword = keyword.lower()
-	
-	fig = Figure()
-	ax = fig.add_subplot(111)
-
-	USVids = pd.read_csv("/Users/Miggy Llamas/Documents/django_env/djangomp/blog/USvideos.csv", error_bad_lines=False)
-	
-	SplitTitle = USVids.title.str.split('\s+',expand=True).stack()
-	USVidsSplitTitle = USVids.join(pd.Series(index=SplitTitle.index.droplevel(1), data=SplitTitle.values, name='SplitTitle'))
-	USVidsSplitTitle['SplitTitle'] = USVidsSplitTitle['SplitTitle'].replace("\W","",regex=True)
-	USVidsSplitTitle['SplitTitle'] = USVidsSplitTitle['SplitTitle'].str.lower()
-	USVidsSplitTitle = USVidsSplitTitle[USVidsSplitTitle['SplitTitle'] != '']
-	USVidsSplitTitle = USVidsSplitTitle.drop_duplicates()
-
-	USVidsSplitTitle['y'], USVidsSplitTitle['d'], USVidsSplitTitle['m'] = zip(*USVidsSplitTitle['trending_date'].map(lambda x: x.split('.')))
-	USVidsSplitTitle['ym'] = USVidsSplitTitle['y'] + USVidsSplitTitle['m']
-
-	USVidsSplitTitleFiltered = USVidsSplitTitle[USVidsSplitTitle['SplitTitle'] == 'mv']
-	USVidsSplitTitle = USVidsSplitTitle.sort_values('views')
-	USVidsSplitTitleFiltered = USVidsSplitTitleFiltered.drop_duplicates(subset=['ym', 'video_id'], keep="last")
-
-	f = {'views': ['sum'], 'video_id': ['count']}
-	KeywordMonthlyViews = USVidsSplitTitleFiltered.groupby(['ym']).agg(f)
-	USVidsKeywordMonthlyViews = USVidsSplitTitleFiltered.filter(items=['ym'])
-	USVidsKeywordMonthlyViews = USVidsKeywordMonthlyViews.drop_duplicates(subset=['ym'])
-	USVidsKeywordMonthlyViews = USVidsKeywordMonthlyViews.join(KeywordMonthlyViews, on=['ym'], how='inner')
-	USVidsKeywordMonthlyViews.columns = ['ym', 'monthly_views', 'video_count']
-
-	USVidsKeywordMonthlyViews.plot(kind='line',x='ym',y='monthly_views',title="Monthly Views for Given Keyword Over Time",ax=ax)
-
-	canvas = FigureCanvas(fig)	
-	g = mpld3.fig_to_html(fig)
-	
 	return g
-'''
+
 def tableKeywordFindings():	
-	USVids = pd.read_csv("/Users/Miggy Llamas/Documents/django_env/djangomp/blog/USvideos.csv", error_bad_lines=False)
+	filename = os.path.join(settings.BASE_DIR, 'blog\\USvideos.csv')
+	USVids = pd.read_csv(filename, error_bad_lines=False)
 	
 	SplitTitle = USVids.title.str.split('\s+',expand=True).stack()
 	USVidsSplitTitle = USVids.join(pd.Series(index=SplitTitle.index.droplevel(1), data=SplitTitle.values, name='SplitTitle'))
@@ -378,7 +347,8 @@ def tableKeywordFindings():
 	return g
 
 def tableKeywordFindings2():	
-	USVids = pd.read_csv("/Users/Miggy Llamas/Documents/django_env/djangomp/blog/USvideos.csv", error_bad_lines=False)
+	filename = os.path.join(settings.BASE_DIR, 'blog\\USvideos.csv')
+	USVids = pd.read_csv(filename, error_bad_lines=False)
 	
 	SplitTitle = USVids.title.str.split('\s+',expand=True).stack()
 	USVidsSplitTitle = USVids.join(pd.Series(index=SplitTitle.index.droplevel(1), data=SplitTitle.values, name='SplitTitle'))
@@ -405,12 +375,12 @@ def tableKeywordFindings2():
 	return g
 
 def tableTopicFindings(type):
-	USVids = pd.read_csv("/Users/Miggy Llamas/Documents/django_env/djangomp/blog/USvideos.csv", error_bad_lines=False)
+	filename = os.path.join(settings.BASE_DIR, 'blog\\USvideos.csv')
+	USVids = pd.read_csv(filename, error_bad_lines=False)
 	
 	SplitTag = USVids.tags.str.split('|',expand=True).stack()
 	USVidsSplitTitle = USVids.join(pd.Series(index=SplitTag.index.droplevel(1), data=SplitTag.values, name='SplitTag'))
 
-	#USVidsSplitTitle['SplitTag'] = USVidsSplitTitle['SplitTag'].replace("\W","",regex=True)
 	USVidsSplitTitle['SplitTag'] = USVidsSplitTitle['SplitTag'].str.lower()
 	USVidsSplitTitle['SplitTag'] = USVidsSplitTitle['SplitTag'].replace('"','',regex=True)
 	USVidsSplitTitle = USVidsSplitTitle[USVidsSplitTitle['SplitTag'] != '']
