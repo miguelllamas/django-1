@@ -70,11 +70,12 @@ def post_detail(request, pk):
 def post_detail_audience_reactions(request):
 	post = get_object_or_404(Post, pk=5)
 	post2 = get_object_or_404(Post, pk=14)
+	post3 = get_object_or_404(Post, pk=18)
 	
 	graph1 = graphEnthusiasm()
 	graph2 = graphEnthusiasmOverTime()
 	
-	return render(request, 'blog/post_detail_audience_reactions.html', {'post': post, 'post2': post2, 'graph1': graph1, 'graph2': graph2})
+	return render(request, 'blog/post_detail_audience_reactions.html', {'post': post, 'post2': post2, 'post3': post3, 'graph1': graph1, 'graph2': graph2})
 
 def post_detail_choosing_keywords(request):
 	post = get_object_or_404(Post, pk=6)
@@ -94,9 +95,14 @@ def post_detail_choosing_topics(request):
 	post2 = get_object_or_404(Post, pk=8)
 	post3 = get_object_or_404(Post, pk=12)
 	post4 = get_object_or_404(Post, pk=13)
+	post5 = get_object_or_404(Post, pk=15)
+	post6 = get_object_or_404(Post, pk=16)
+	post7 = get_object_or_404(Post, pk=17)
 	
 	table1 = tableTopicFindings(0)
 	table2 = tableTopicFindings(1)
+	
+	graph = graphCountryCatFindings(1)
 	
 	if request.method == 'POST':
 		form = KeywordForm(request.POST)
@@ -106,8 +112,104 @@ def post_detail_choosing_topics(request):
 	else:
 		form = KeywordForm()
 	
-	return render(request, 'blog/post_detail_choosing_topics.html', {'post': post, 'post2': post2, 'post3': post3, 'post4': post4, 'table1': table1, 'table2': table2, 'form': form})
+	return render(request, 'blog/post_detail_choosing_topics.html', {'post': post, 'post2': post2, 'post3': post3, 'post4': post4, 'post5': post5, 'post6': post6, 'post7': post7, 'table1': table1, 'table2': table2, 'form': form, 'graph': graph})
 
+def post_detail_choosing_topics_de(request):
+	post = get_object_or_404(Post, pk=7)
+	post2 = get_object_or_404(Post, pk=8)
+	post3 = get_object_or_404(Post, pk=12)
+	post4 = get_object_or_404(Post, pk=13)
+	post5 = get_object_or_404(Post, pk=15)
+	post6 = get_object_or_404(Post, pk=16)
+	post7 = get_object_or_404(Post, pk=17)
+	
+	table1 = tableTopicFindings(0)
+	table2 = tableTopicFindings(1)
+	
+	graph = graphCountryCatFindings(2)
+	
+	if request.method == 'POST':
+		form = KeywordForm(request.POST)
+		if form.is_valid():
+			keyword = form.cleaned_data['keyword']
+			return redirect('post_detail_choosing_topics_search', keyword)
+	else:
+		form = KeywordForm()
+	
+	return render(request, 'blog/post_detail_choosing_topics.html', {'post': post, 'post2': post2, 'post3': post3, 'post4': post4, 'post5': post5, 'post6': post6, 'post7': post7, 'table1': table1, 'table2': table2, 'form': form, 'graph': graph})
+	
+def post_detail_choosing_topics_fr(request):
+	post = get_object_or_404(Post, pk=7)
+	post2 = get_object_or_404(Post, pk=8)
+	post3 = get_object_or_404(Post, pk=12)
+	post4 = get_object_or_404(Post, pk=13)
+	post5 = get_object_or_404(Post, pk=15)
+	post6 = get_object_or_404(Post, pk=16)
+	post7 = get_object_or_404(Post, pk=17)
+	
+	table1 = tableTopicFindings(0)
+	table2 = tableTopicFindings(1)
+	
+	graph = graphCountryCatFindings(3)
+	
+	if request.method == 'POST':
+		form = KeywordForm(request.POST)
+		if form.is_valid():
+			keyword = form.cleaned_data['keyword']
+			return redirect('post_detail_choosing_topics_search', keyword)
+	else:
+		form = KeywordForm()
+	
+	return render(request, 'blog/post_detail_choosing_topics.html', {'post': post, 'post2': post2, 'post3': post3, 'post4': post4, 'post5': post5, 'post6': post6, 'post7': post7, 'table1': table1, 'table2': table2, 'form': form, 'graph': graph})
+	
+def post_detail_choosing_topics_gb(request):
+	post = get_object_or_404(Post, pk=7)
+	post2 = get_object_or_404(Post, pk=8)
+	post3 = get_object_or_404(Post, pk=12)
+	post4 = get_object_or_404(Post, pk=13)
+	post5 = get_object_or_404(Post, pk=15)
+	post6 = get_object_or_404(Post, pk=16)
+	post7 = get_object_or_404(Post, pk=17)
+	
+	table1 = tableTopicFindings(0)
+	table2 = tableTopicFindings(1)
+	
+	graph = graphCountryCatFindings(4)
+	
+	if request.method == 'POST':
+		form = KeywordForm(request.POST)
+		if form.is_valid():
+			keyword = form.cleaned_data['keyword']
+			return redirect('post_detail_choosing_topics_search', keyword)
+	else:
+		form = KeywordForm()
+	
+	return render(request, 'blog/post_detail_choosing_topics.html', {'post': post, 'post2': post2, 'post3': post3, 'post4': post4, 'post5': post5, 'post6': post6, 'post7': post7, 'table1': table1, 'table2': table2, 'form': form, 'graph': graph})
+	
+def post_detail_choosing_topics_us(request):
+	post = get_object_or_404(Post, pk=7)
+	post2 = get_object_or_404(Post, pk=8)
+	post3 = get_object_or_404(Post, pk=12)
+	post4 = get_object_or_404(Post, pk=13)
+	post5 = get_object_or_404(Post, pk=15)
+	post6 = get_object_or_404(Post, pk=16)
+	post7 = get_object_or_404(Post, pk=17)
+	
+	table1 = tableTopicFindings(0)
+	table2 = tableTopicFindings(1)
+	
+	graph = graphCountryCatFindings(5)
+	
+	if request.method == 'POST':
+		form = KeywordForm(request.POST)
+		if form.is_valid():
+			keyword = form.cleaned_data['keyword']
+			return redirect('post_detail_choosing_topics_search', keyword)
+	else:
+		form = KeywordForm()
+	
+	return render(request, 'blog/post_detail_choosing_topics.html', {'post': post, 'post2': post2, 'post3': post3, 'post4': post4, 'post5': post5, 'post6': post6, 'post7': post7, 'table1': table1, 'table2': table2, 'form': form, 'graph': graph})
+	
 def post_detail_choosing_topics_search(request, pk_letter):
 	post = get_object_or_404(Post, pk=7)
 	post2 = get_object_or_404(Post, pk=8)
@@ -183,7 +285,7 @@ def graphEnthusiasmOverTime():
 	y = USVids['avg_enthusiasm']
 	
 	ax.set_title('Average Daily Enthusiasm Rating of Entire Trending Videos Section Over Time')
-	ax.set_xlabel('Day')
+	ax.set_xlabel('Day (i.e. 0 = Day 1)')
 	ax.set_ylabel('Average enthusiasm rating')
 
 	ax.plot(x, y, color='red', marker='o', linestyle='None')
@@ -270,7 +372,7 @@ def graphTopicSearch(keyword):
 	y = USVidsSplitTags['total_views']
 
 	ax.set_title('Total Daily Views for Videos Featuring Keyword Over Specified Time Period')
-	ax.set_xlabel('Day (i.e. 1 = Day 1)')
+	ax.set_xlabel('Day (i.e. 0 = Day 1)')
 	ax.set_ylabel('Views')
 
 	ax.plot(x, y, marker='h', linestyle='solid')
@@ -323,7 +425,44 @@ def graphTopicSearch2(keyword):
 	g = mpld3.fig_to_html(fig)
 	
 	return g
-
+	
+def graphCountryCatFindings(country):
+	fig = Figure()
+	ax = fig.add_subplot(111)
+	
+	if country == 1:
+		filename = os.path.join(settings.BASE_DIR, 'blog\\AnalyzeCA.csv')
+	elif country == 2:
+		filename = os.path.join(settings.BASE_DIR, 'blog\\AnalyzeDE.csv')
+	elif country == 3:
+		filename = os.path.join(settings.BASE_DIR, 'blog\\AnalyzeFR.csv')
+	elif country == 4:
+		filename = os.path.join(settings.BASE_DIR, 'blog\\AnalyzeGB.csv')
+	else:
+		filename = os.path.join(settings.BASE_DIR, 'blog\\AnalyzeUS.csv')
+	
+	videos = pd.read_csv(filename, error_bad_lines=False)
+	
+	if country == 1:
+		ax.set_title('Total Trended YouTube Videos per Genre Over Specified Time Period: Canada')
+	elif country == 2:
+		ax.set_title('Total Trended YouTube Videos per Genre Over Specified Time Period: Germany')
+	elif country == 3:
+		ax.set_title('Total Trended YouTube Videos per Genre Over Specified Time Period: France')
+	elif country == 4:
+		ax.set_title('Total Trended YouTube Videos per Genre Over Specified Time Period: United Kingdom')
+	else:
+		ax.set_title('Total Trended YouTube Videos per Genre Over Specified Time Period: United States')
+	
+	ax.set_ylabel('Number of videos')
+	
+	videos = videos.groupby(['category_id'])['video_id'].count()
+	videos.plot(ax=ax, kind='bar')
+	
+	g = mpld3.fig_to_html(fig)
+	
+	return g
+	
 def tableKeywordFindings():	
 	filename = os.path.join(settings.BASE_DIR, 'blog\\USvideos.csv')
 	USVids = pd.read_csv(filename, error_bad_lines=False)

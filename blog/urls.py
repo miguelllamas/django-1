@@ -31,6 +31,11 @@ urlpatterns = [
 	url(r'^post/5/$', views.post_detail_audience_reactions, name='post_detail_audience_reactions'),
 	url(r'^post/6/$', views.post_detail_choosing_keywords, name='post_detail_choosing_keywords'),
 	url(r'^post/7/$', views.post_detail_choosing_topics, name='post_detail_choosing_topics'),
+	url(r'^post/7//ca/$', views.post_detail_choosing_topics, name='post_detail_choosing_topics_ca'),
+	url(r'^post/7//de/$', views.post_detail_choosing_topics_de, name='post_detail_choosing_topics_de'),
+	url(r'^post/7//fr/$', views.post_detail_choosing_topics_fr, name='post_detail_choosing_topics_fr'),
+	url(r'^post/7//gb/$', views.post_detail_choosing_topics_gb, name='post_detail_choosing_topics_gb'),
+	url(r'^post/7//us/$', views.post_detail_choosing_topics_us, name='post_detail_choosing_topics_us'),
 	url(r'^post/7/(?P<pk_letter>[\w|\W]+)/$', views.post_detail_choosing_topics_search, name='post_detail_choosing_topics_search'),
 	url(r'^post/(?P<pk>\d+)/$', views.post_detail, name='post_detail'), # '\d+' = only digits -> value saved to pk
 	url(r'^post/new/$', views.post_new, name='post_new'),

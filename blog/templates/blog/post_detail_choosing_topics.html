@@ -48,5 +48,45 @@
 				{{ table2|safe }}
 			</div>
 		</div>
+		<div class="post">
+			<div class="content_post">
+				<p>{{ post5.content|linebreaksbr }}</p>
+			</div>
+			<div id="graphTopic">
+				<center>
+				{{ graph|safe }}
+				</center>
+				<center>
+				<h6>Legend: 1 = 'Film & Animation', 2 = "Autos & Vehicles", 10 = 'Music', 15 = 'Pets & Animals', 17 = 'Sports', 18 = 'Short Movies', 19 = 'Travel & Events', 20 = 'Gaming', 21 = 'Videoblogging', 22 = 'People & Blogs', 23 = 'Comedy', 24 = 'Entertainment', 25 = 'News and Politics', 26 = 'Howto and Style', 27 = 'Education', 28 = 'Science & Technology', 29 = 'Nonprofit & Activism', 30 = 'Movies', 31 = 'Anime/Animation', 32 = 'Action/Adventure', 33 = 'Classics', 34 = 'Comedy', 35 = 'Documentary', 36 = 'Drama', 37 = 'Family', 38 = 'Foreign', 39 = 'Horror', 40 = 'Sci-fi-Fantasy', 41 = 'Thriller', 42 = 'Shorts', 43 = 'Shows', 44 = 'Trailers'</h6>
+				</center>
+			</div>
+			<div class="frm">
+				<center>
+				<form method="get" action="/post/7//ca">
+					<button type="submit">CA/Canada</button>
+				</form>
+				<form method="get" action="/post/7//de">
+					<button type="submit">DE/Germany</button>
+				</form>
+				<form method="get" action="/post/7//fr">
+					<button type="submit">FR/France</button>
+				</form>
+				<form method="get" action="/post/7//gb">
+					<button type="submit">GB/United Kingdom</button>
+				</form>
+				<form method="get" action="/post/7//us">
+					<button type="submit">US/United States</button>
+				</form>
+				</center>
+			</div>
+			<div class="content_post">
+				<p>{{ post6.content|linebreaksbr }}</p>
+			</div>
+		</div>
+		<div class="post">
+			<div class="content_post">
+				<p>{{ post7.content|linebreaksbr }}</p>
+			</div>
+		</div>
 	</div>
 {% endblock %}
